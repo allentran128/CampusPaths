@@ -1,0 +1,133 @@
+CSE 331 Homework 5.  Answers to Written questions.
+Edit this file to supply your answers.
+
+Name:  Allen Tran
+
+Problem 1. (Written exercises)
+
+(a)
+IntQueue1 :
+AF : 
+AF(IntQueue1 this) = { [] | [n1, n2, ..., n_k] such that the indexing of this.entries denotes
+the order that the Integers came in and the order that they will leave the queue}
+
+RI :
+this.entries != null
+for all items in this.entries, i : i != null && i instanceof Integer
+
+IntQueue2 :
+
+AF :
+AF(Intqueue2 this) = { [] & size=0 & front=0 | [n1, n2, ..., n_k] & size=k & front=j, where 1 <= j <= k,
+such that this.front denotes the index of the next item in the queue to dequeue in this.entries and 
+this.size denotes the size of the current queue and the index of the next position to enqueue in this.entries.
+
+
+RI :
+this.size >= this.entries.length
+this.size >= 0
+this.front >= 0
+this.entries != null
+for all items in this.entries, i : i != null && i is an int
+
+
+(b)
+c, f - front points to 1 and the size is 3
+d, g, a - front points to 1 and the size is 2
+b, h - front points to 2 and the size is 3
+e - front points to 1 and the size is 4
+
+(c)
+public int solveEquations(int x, int y, int z)
+  Yes, the client knows that the representation uses integers and
+  returns an integer.
+public String[] decode(boolean slowly)
+  Yes, the client can tell from the parameter. It indicates whether or not
+  that the decode will use a fast or slow decode algorithm which may expose
+  the representation.
+private Date myBirthday()
+  No, because the method signature is private, so the client will never
+  see this signature.
+public String toString()
+  No, because there are no parameters passed, the client cannot determine
+  how toString will be implemented.
+public Iterator<Integer> elements()
+  Yes, the client can expect an Iterator over Integer objects from
+  calling this method.
+public Deck(List<Card> cards)
+  No, the client does not know for sure what type of List implementation
+  is used in Deck.
+
+Problem 2.  (Graph interface/operations)
+Node Interface
+  I wanted to generalize nodes in the Graph to contain different information if
+  necessary. This Node interface implements Comparable so there is a natural ordering\
+  to the nodes.
+  Methods:
+    equals - for determining if there are duplicate nodes
+    hashCode - for equals
+    toString - override the Object's toString to a more useful representation
+    compareTo - to determine the natural ordering
+  
+  
+Edge Interface
+  I wanted to generalize the edges in the Graph to link different Nodes and contain additional
+  information such as labels and weights if necessary for later on. 
+  Methods:
+    isSelfReference - determines if the edge of a node points to itself
+    getSrcNode - access the "from" node
+    getDstNode - access the "to" node
+    getLabel - access the contents of the edge
+    toString - override the Object's toString to a more useful representation
+
+Graph Interface
+  This graph uses the Node and Edge interfaces. 
+  Methods:
+    addNode, removeNode - add and remove nodes from the graph
+    addEdge, removeEdge - add and remove edges from the graph
+    isEmpty - determines if there is nothing in the graph
+    getNodes - provides a way to iterate over the nodes in the graph
+    getEdges - provides a way to iterate over the edges given a node in the graph
+    toString - override the Object's toString to a more useful representation
+  With these operations, clients can freely add/remove nodes and edges as well as
+  traverse over all of the nodes and edges in the graph.
+
+Problem 3.  (Testing strategy)
+  TestStringNode
+    I wanted to cover the equality requirements as noted in lecture so I did extensive
+    testing for all of the requirements.
+    
+  TestStringEdge
+    I tested the construction of Edges with good and bad input (nodes) and also if the
+    isSelfReference worked.
+    
+  TestStringGraph
+    I made a test for each of the graph methods to test if they properly added nodes and 
+    edges to the graph and also paid close attention to how removeNode works. I wanted to
+    make sure that removing a node will also remove all of the edges that point to that node.
+
+  Post Implementation Testing
+    I found that my tests were sufficient in that they covered all of the methods
+    in my implementations.
+Problem 4.  (Representation)
+  I chose to implement StringGraph using an adjacency list. In the context of HW6 where
+  we will be constructing possibly huge graphs, I decided that an adjacency list would
+  be the most efficient design strategy since it's addNode and addEdge are constant time
+  operations. We will rarely need to remove nodes and edges.
+  
+  The advantages of an adjacency list is that the addNode and addEdge are constant time 
+  operations making graph construction fast. The adjacency list performs best with sparse
+  graphs where there are few edges which makes finding edges in the graph quick.
+  This is because the the edge list for each node will be relatively short in a sparse graph
+  and because the lookup time for the nodes are quick due to the Map implementation.
+  
+  The advantages of an Adjacency Matrix is that  a 2D array can be used to represent if 
+  there is an edge from Node A to Node B or vice versa. The access time to that 2d array
+  is constant time since we can calculate the index from Node A and Node B. This implementation
+  performs better than the others at adding edges, modifying the 2D array, and at checking
+  if edges exist among the Nodes. 
+  
+  The advantages of a Collection of Edges is that we do not have to deal with Nodes. Finding
+  an edge would be linear time unless it is sorted, then it would be logarithmic time. 
+  
+  

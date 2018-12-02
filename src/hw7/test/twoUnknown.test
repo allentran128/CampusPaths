@@ -1,0 +1,3 @@
+LoadGraph staffSuperheroes staffSuperheroes.tsv
+
+FindPath staffSuperheroes Adam Taki

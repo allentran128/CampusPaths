@@ -1,0 +1,127 @@
+CSE 331 Homework 4.  Answers to Written questions.
+Edit this file to supply your answers.
+
+Name:  Allen Tran
+
+Problem 0.
+
+(a)
+Assert that p and q are polynomials. Then r = p * q, or polynomial multiplication, is defined by:
+
+set r = 0 by setting all the coefficients of x to be 0.
+for each term t_p in p, in ascending order,
+    for each term t_q in q, in ascending order,
+        calculate the product of t_p * t_q and store into a temp, t_0.
+        if r contains a term t_r with the same degree as t_0,
+            then replace t_r with t_r + t_0
+            else insert t_0 into r as a new term
+The the polynomial multiplication of p and q is stored into the polynomial r.
+(b)
+Assert that u, the numerator, and v, the denominator, are polynomials and v != 0 polynomial. 
+Then q = u / v, or polynomial division is defined by:
+
+set q = 0 by setting all the coefficients of x to be 0.
+explicitly write out the coefficients for each term in u and v, including the 0 terms in descending order.
+take the highest degree term in v, call it t_v.
+take the highest degree in u and store it into d_u
+while degree of t_v is less than or equal to d_u
+    if there is a term with degree d_u in u
+    then,
+        get the term and store it into t_u
+        calculate t_u / t_v and store into t_div
+        calculate t_div * v and store into t_sub
+        insert t_div into q as a new term
+        calculate u - t_sub and store into u
+    else,
+        // move on to next term
+    decrement d_u by one and store it into d_u
+        
+Then we have q, the result of polynomial division of u / v.
+
+(c)
+Illustrate:  (x^3 + x - 1) / (x + 1) = x^2 - x + 2
+u = x^3 + x - 1
+v = x + 1
+q = 0;
+u = 1x^3 + 0x^2 + 1x - 1
+v = 1x + 1
+t_v = 1x (degree is 1)
+d_u = 3
+while degree of t_v is less than or equal to d_u
+    Iteration 1: d_u = 3, t_v = 1x
+        degree of t_v <= 3 is true
+        found a term with d_u in u
+        t_u = 1x^3
+        t_div = t_u / t_v = 1x^2 
+        t_sub = t_div * v = 1x^3 + 1x^2
+        q = 1x^2
+        u = u - t_sub = 0x^3 -1x^2 + x - 1
+        d_u = 3 - 1 = 2
+    Iteration 2: d_u = 2, t_v = 1x
+        degree of t_v <= 2 is true
+        found a term with d_u in u
+        t_u = -1x^2
+        t_div = t_u / t_v = -1x
+        t_sub = t_div * v = -1x^2 - x
+        q = 1x^2 - 1x
+        u = u - t_sub = 2x - 1
+        d_u = 2 - 1 = 1
+    Iteration 3: d_u = 1, t_v = 1x
+        degree of t_v <= 1 is true
+        found a term with d_u in u
+        t_u = 2x
+        t_div = t_u / t_v = 2
+        t_sub = t_div * v = 2x + 2
+        q = 1x^2 - 1x + 2
+        u = u - t_sub = -3
+        d_u = 1 - 1 = 0
+    Iteration 4: d_u = 0, t_v = 1x
+        degree of t_v <= 0 is false
+        exit while loop
+q = 1x^2 - 1x + 2 = u / v
+    
+
+Problem 1.
+
+(a)
+The methods that will have to change because of the weaker RI are: add, subtract, multiply, divide, hashCode, equals and toString.
+add, subtract, multiply and divide have to deal with integer overflow and underflow so additional tests are needed.
+hashCode (violates the @return), equals (cannot compare the numer and demon fields naively) and toString (violates the @return) need
+additional code to achieve the same results, making these method implementations more complex and inefficient per call.
+
+(b)
+Breaks the abstract state of RatNum: Immutability.
+It breaks the methods' default @modifies clause (does not modify anything) by modifying this object.
+
+(c)
+The RatNum class is specified to be immutable and therefore the fields are not mutable and we do not need to check the RI
+and also there is no mutator methods in RatNum's class so there is no need to check the RI after each method.
+
+Problem 2.
+
+(a)
+I included checkRep() only at the end constructors because the RatTerm class is immutable, therefore after construction the RatTerm object
+will never change. The producer methods all return newly created RatTerm objects which have to go through the constructor.
+
+(b)
+public RatTerm(RatNum c, int e) - remove the if/else statement and just have the statements inside the else block in the method. Less complex operations and
+more clear in a sense that the things you passed into the RatTerm constructor creates exactly a RatTerm with those arguments.
+
+public RatTerm add(RatTerm arg) - have to check if either this or arg evals to zero before anything else. In the case that either evals to zero we need to add
+more cases otherwise we use our old implementation. This will make the code much more complex and less efficient because of the additional checking/ RatTerm evals.
+
+public RatTerm sub(RatTerm arg) - same argument as add() since this implementation negates 'arg' and adds it to this.
+
+(c)
+No changes are necessary. The implementation to check for NaN uses RatNum's isNaN() which does not use information about the exponent. The checks for NaN occur
+before checks for ZERO.
+
+I prefer coeff.equals(RatNum.ZERO) ==> expt = 0;
+since it gives us guarantees upon entering the add and subtract methods; making the code simpler.
+
+Problem 5.
+1) x
+2) -x
+3) x^3
+4) -x^3
+x in range of [-1,1]
