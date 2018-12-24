@@ -1,7 +1,8 @@
 # CampusPaths
-
+## Description
 This application visually displays the shortest route between buildings on the University of Washington Campus.
 
+## Design
 I used a Model-View-Controller design pattern to structure this application.
 
 Model:
